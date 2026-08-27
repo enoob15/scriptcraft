@@ -1,88 +1,62 @@
-import { Platform, ScriptStyle } from './types'
+import { PLATFORM_LIMITS } from './catalog'
+import { GenerateScriptRequest } from './types'
 
-export const getScriptPrompt = (
-  topic: string,
-  platform: Platform,
-  style: ScriptStyle,
-  duration: number,
-  targetAudience?: string,
-  keyPoints?: string[]
-): string => {
-  const platformSpecs = {
-    'tiktok': {
-      format: 'vertical video',
-      attention: 'first 3 seconds are crucial',
-      pace: 'fast-paced, energetic',
-      features: 'trending sounds, effects, hashtags'
+export const SCRIPT_RESPONSE_JSON_SCHEMA = {
+  type: 'object',
+  properties: {
+    title: { type: 'string' },
+    hook: { type: 'string' },
+    body: { type: 'string' },
+    callToAction: { type: 'string' },
+    hashtags: {
+      type: 'array',
+      items: { type: 'string' },
     },
-    'youtube-shorts': {
-      format: 'vertical short-form',
-      attention: 'hook within 5 seconds',
-      pace: 'engaging, informative',
-      features: 'clear audio, good lighting'
+    tips: {
+      type: 'array',
+      items: { type: 'string' },
     },
-    'instagram-reels': {
-      format: 'vertical Reel',
-      attention: 'visually appealing first frame',
-      pace: 'trendy, aesthetic',
-      features: 'music, trending audio'
-    },
-    'twitter': {
-      format: 'video tweet',
-      attention: 'immediate value',
-      pace: 'concise, punchy',
-      features: 'captions, accessible'
-    },
-    'linkedin': {
-      format: 'professional video',
-      attention: 'value proposition upfront',
-      pace: 'authoritative, educational',
-      features: 'professional tone'
-    }
-  }
-
-  const styleInstructions = {
-    'educational': 'Focus on teaching something valuable. Use clear explanations and actionable insights.',
-    'entertaining': 'Prioritize humor, surprise, or emotional engagement. Keep it light and fun.',
-    'promotional': 'Highlight benefits and value. Include a strong call-to-action.',
-    'storytelling': 'Use narrative structure with conflict, resolution, and emotional arc.',
-    'trending': 'Incorporate current trends, memes, or viral formats appropriately.'
-  }
-
-  const spec = platformSpecs[platform]
-  const styleInstruction = styleInstructions[style]
-
-  return `Create a ${duration}-second video script for ${platform} about "${topic}".
-
-PLATFORM REQUIREMENTS:
-- Format: ${spec.format}
-- Attention: ${spec.attention}  
-- Pace: ${spec.pace}
-- Key features: ${spec.features}
-
-STYLE: ${styleInstruction}
-
-${targetAudience ? `TARGET AUDIENCE: ${targetAudience}` : ''}
-
-${keyPoints && keyPoints.length > 0 ? `MUST INCLUDE THESE POINTS:\n${keyPoints.map(p => `- ${p}`).join('\n')}` : ''}
-
-STRUCTURE YOUR RESPONSE AS JSON:
-{
-  "title": "Catchy title for the video",
-  "hook": "Opening line/visual that grabs attention immediately",
-  "body": "Main content with clear pacing markers like [PAUSE], [EMPHASIS], [VISUAL CUE]",
-  "callToAction": "Strong, specific CTA",
-  "hashtags": ["array", "of", "relevant", "hashtags"],
-  "tips": ["array", "of", "filming/editing", "tips", "for", "this", "script"]
+  },
+  required: ['title', 'hook', 'body', 'callToAction', 'hashtags', 'tips'],
 }
 
-Make the script feel natural when spoken aloud. Include timing cues and visual directions where helpful. Ensure it fits the ${duration}-second duration when read at normal pace.`
-}
+export function getScriptPrompt({
+  topic,
+  platform,
+  style,
+  duration,
+  targetAudience,
+  keyPoints,
+  brandVoice,
+  primaryGoal,
+}: GenerateScriptRequest): string {
+  const platformLimit = PLATFORM_LIMITS[platform]
 
-export const PLATFORM_LIMITS = {
-  'tiktok': { min: 15, max: 180, recommended: 60 },
-  'youtube-shorts': { min: 15, max: 60, recommended: 45 },
-  'instagram-reels': { min: 15, max: 90, recommended: 30 },
-  'twitter': { min: 15, max: 140, recommended: 60 },
-  'linkedin': { min: 30, max: 300, recommended: 120 }
+  return `You are ScriptCraft, an elite short-form video strategist for creators, marketers, and agencies.
+
+Produce one high-performing video script as JSON only.
+
+Creative brief:
+- Topic: ${topic}
+- Platform: ${platform}
+- Style: ${style}
+- Duration target: ${duration} seconds
+- Recommended platform duration: ${platformLimit.recommended} seconds
+- Platform optimization angle: ${platformLimit.angle}
+- Target audience: ${targetAudience?.trim() || 'Broad creator audience'}
+- Brand voice: ${brandVoice?.trim() || 'Clear, modern, credible, and energetic'}
+- Primary goal: ${primaryGoal?.trim() || 'Maximize retention and engagement'}
+
+Requirements:
+- Open with a hard hook in the first line.
+- Make the body speakable out loud, not like blog copy.
+- Use concise pacing markers like [beat], [cut], [show proof], [cta].
+- Keep it specific to ${platform}, not generic across platforms.
+- Avoid filler, cliches, and broad claims without payoff.
+- The CTA must match the user goal.
+- Hashtags should be relevant and ready to paste.
+- Tips should help filming or editing the script successfully.
+${keyPoints && keyPoints.length > 0 ? `- Must include these key points:\n${keyPoints.map((point) => `  - ${point}`).join('\n')}` : ''}
+
+Return valid JSON that matches the supplied schema. Do not wrap it in markdown fences.`
 }

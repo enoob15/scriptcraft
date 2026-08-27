@@ -1,125 +1,54 @@
-# 🎬 ScriptCraft - AI Video Script Generator
+# ScriptCraft
 
-Generate viral video scripts for TikTok, YouTube Shorts, Instagram Reels, and more in seconds.
+ScriptCraft is a Bootstrap-powered SaaS workspace for generating AI video scripts for TikTok, YouTube Shorts, Instagram Reels, X, and LinkedIn.
 
-## ✨ Features
+## What Changed
 
-- **Multi-Platform Support**: TikTok, YouTube Shorts, Instagram Reels, Twitter, LinkedIn
-- **Multiple Styles**: Educational, Entertaining, Promotional, Storytelling, Trending
-- **Smart Timing**: Platform-optimized duration controls
-- **Audience Targeting**: Custom audience specification
-- **Key Points**: Include specific points you want covered
-- **Complete Scripts**: Hook, body, CTA, hashtags, and filming tips
-- **Copy-to-Clipboard**: Easy copying for individual sections or complete scripts
+- Tailwind-based MVP replaced by a Bootstrap-first responsive layout
+- Gemini REST integration for structured script generation
+- Stripe REST checkout, billing confirmation, status, and portal routes
+- Local workspace profile, script history, export flow, and business-team staging
+- Domain-ready metadata and security-oriented Next.js headers
 
-## 🚀 Tech Stack
+## Environment
 
-- **Frontend**: Next.js 15, React 18, TypeScript
-- **Styling**: Tailwind CSS
-- **Icons**: Heroicons
-- **AI**: Gemini API (planned) / Mock responses (MVP)
-- **Deployment**: Vercel
+Copy `.env.example` and set:
 
-## 🛠️ Getting Started
+- `NEXT_PUBLIC_APP_URL`
+- `SESSION_SECRET`
+- `GEMINI_API_KEY`
+- `GEMINI_MODEL` (optional, defaults to `gemini-2.5-flash`)
+- `STRIPE_SECRET_KEY`
+- `STRIPE_PRO_PRICE_ID`
+- `STRIPE_BUSINESS_PRICE_ID`
+
+If `GEMINI_API_KEY` is missing, the app falls back to a deterministic studio generator so the UI still works. If Stripe keys are missing, checkout and portal actions return configuration errors.
+
+## Local Run
 
 ```bash
-# Install dependencies
 npm install
-
-# Run development server
 npm run dev
-
-# Build for production
-npm run build
-
-# Start production server
-npm start
 ```
 
-## 💡 How It Works
+Open `http://localhost:3000`.
 
-1. **Input**: Provide your video topic, choose platform and style
-2. **Customize**: Set duration, target audience, key points
-3. **Generate**: AI creates optimized script structure
-4. **Export**: Copy individual sections or complete script
+## Billing Flow
 
-## 🎯 Platform Optimization
+1. User starts hosted Stripe checkout from the workspace.
+2. Stripe redirects back with `session_id`.
+3. `/api/billing/confirm` verifies the subscription and stores a signed billing session cookie.
+4. `/api/generate` enforces the free 5-script monthly limit unless an active paid subscription is present.
 
-### TikTok (15-180s)
-- Hook within first 3 seconds
-- Fast-paced, energetic content
-- Trending sounds and hashtags
+## Export Flow
 
-### YouTube Shorts (15-60s) 
-- Hook within 5 seconds
-- Clear audio, good lighting
-- Educational or entertaining focus
+- Copy full script to clipboard
+- Export plain text
+- Export formatted HTML
+- Print to PDF from the browser
 
-### Instagram Reels (15-90s)
-- Visually appealing first frame
-- Trendy, aesthetic content
-- Music and trending audio
+## Deployment Notes
 
-### Twitter (15-140s)
-- Immediate value proposition
-- Concise, punchy delivery
-- Accessible with captions
-
-### LinkedIn (30-300s)
-- Professional, authoritative tone
-- Value proposition upfront
-- Educational focus
-
-## 📈 Revenue Model
-
-**Freemium SaaS**:
-- Free: 3 scripts/day, basic templates
-- Pro ($9/month): Unlimited scripts, advanced styles, analytics
-- Team ($29/month): Team collaboration, brand guidelines, API access
-- Enterprise ($99/month): White-label, custom models, priority support
-
-## 🎨 Style Guide
-
-- **Educational**: Teaching valuable skills/knowledge
-- **Entertaining**: Humor, surprise, emotional engagement
-- **Promotional**: Product/service promotion with strong CTAs
-- **Storytelling**: Narrative structure with emotional arcs
-- **Trending**: Incorporates current trends and viral formats
-
-## 🔮 Future Features
-
-- Real-time AI generation (Gemini integration)
-- Script analytics and performance tracking
-- A/B testing for different script versions
-- Voice-over generation
-- Custom brand voice training
-- Script history and favorites
-- Team collaboration tools
-- Performance analytics integration
-- Batch script generation
-- API for developers
-
-## 🎬 Perfect For
-
-- Content creators and influencers
-- Social media managers
-- Marketing teams
-- Small businesses
-- Course creators
-- Coaches and consultants
-- E-commerce brands
-- Anyone creating short-form video content
-
-## 🌟 Why ScriptCraft?
-
-Unlike generic AI writing tools, ScriptCraft is specifically designed for video content creation with:
-
-- Platform-specific optimization
-- Timing and pacing considerations  
-- Visual cue integration
-- Performance-focused structures
-- Content creator workflow integration
-
----
-
-Built with ❤️ by Alice AI • [Boone51 Studios](https://github.com/enoob15)
+- Intended domain: `scriptcraft.boone51.com`
+- Do not deploy directly from this handoff
+- Required deployment chain: Codex → Alice → Neo → Production
