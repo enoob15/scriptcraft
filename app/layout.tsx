@@ -4,9 +4,9 @@ import './globals.css'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://scriptcraft.boone51.com'),
-  title: 'ScriptCraft | AI Video Script Generator',
+  title: 'ScriptCraft — AI video script generator for TikTok, Shorts, and Reels',
   description:
-    'ScriptCraft generates platform-optimized video scripts for TikTok, YouTube Shorts, Instagram Reels, X, and LinkedIn.',
+    'Turn a rough idea into a platform-ready video script. ScriptCraft writes hooks, pacing, and CTAs for TikTok, YouTube Shorts, Instagram Reels, X, and LinkedIn.',
   keywords: [
     'AI video script generator',
     'TikTok script generator',
@@ -15,9 +15,9 @@ export const metadata: Metadata = {
     'creator SaaS',
   ],
   openGraph: {
-    title: 'ScriptCraft | Stop staring at blank pages. Start creating viral content.',
+    title: 'ScriptCraft — Turn a rough idea into a video script ready to record',
     description:
-      'Bootstrap-powered creator SaaS with Gemini script generation, Stripe billing, exports, and workflow tooling.',
+      'Platform-ready video scripts for TikTok, Shorts, Reels, X, and LinkedIn. Hooks, pacing, and CTA structures built for each platform.',
     url: 'https://scriptcraft.boone51.com',
     siteName: 'ScriptCraft',
     type: 'website',
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'ScriptCraft',
-    description: 'AI video scripts with SaaS-ready billing and creator ops.',
+    description: 'AI video scripts tuned for TikTok, Shorts, Reels, X, and LinkedIn.',
   },
 }
 

@@ -66,13 +66,13 @@ export default function Home() {
             <div className="row align-items-center g-5">
               <div className="col-lg-7">
                 <span className="badge rounded-pill text-bg-light border px-3 py-2 mb-4">
-                  Stop staring at blank pages. Start creating viral content.
+                  Turn a rough idea into a video script ready to record.
                 </span>
                 <h1 className="display-2 fw-semibold mb-4">
-                  AI video scripts built for creators, marketers, and agencies that need output fast.
+                  Video scripts tuned for the platform you are posting to.
                 </h1>
                 <p className="lead text-secondary mb-4">
-                  ScriptCraft turns a rough topic into a publishable short-form script, wrapped in a SaaS-ready experience with pricing, billing, exports, and deployment-oriented production config.
+                  ScriptCraft writes hooks, pacing, and CTA structures for TikTok, Shorts, Reels, X, and LinkedIn — so you spend less time writing and more time recording.
                 </p>
                 <div className="d-flex flex-column flex-sm-row gap-3">
                   <a className="btn btn-primary btn-lg px-4" href="#workspace">
